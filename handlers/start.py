@@ -42,6 +42,7 @@ async def process_email(message: Message, state: FSMContext):
 
     password = generate_password()
     telegram_nick = message.from_user.username or message.from_user.full_name
+    telegram_id = message.from_user.id
 
     await message.answer(
         f"Ваш пароль для входа на сайт: {password}\n\n"
@@ -50,7 +51,7 @@ async def process_email(message: Message, state: FSMContext):
         parse_mode="HTML",
     )
 
-    resp = await api.register_user(email, telegram_nick, password)
+    resp = await api.register_user(email, telegram_nick, telegram_id, password)
     if resp["status"] == 200:
         token = resp["data"].get("access_token")
         if token:

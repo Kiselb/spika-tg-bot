@@ -29,13 +29,14 @@ class ApiClient:
             return {"status": resp.status, "data": data}
 
     async def register_user(
-        self, email: str, telegram_nick: str, password: str
+        self, email: str, telegram_nick: str, telegram_id: int, password: str
     ) -> Dict[str, Any]:
         session = await self.get_session()
         url = f"{API_BASE_URL}/auth/register"
         payload = {
             "Email": email,
             "Telegram": telegram_nick,
+            "TelegramID": telegram_id,
             "password": password,
         }
         async with session.post(url, json=payload) as resp:
